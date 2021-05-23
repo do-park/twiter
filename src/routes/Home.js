@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { dbService } from 'fbase';
 
 const Home = () => {
   const [tweet, setTweet] = useState('');
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-
+    console.log('is it work?');
+    await dbService.collection('tweets').add({
+      tweet,
+      createdAt: Date.now(),
+    });
+    setTweet('');
+    console.log('is it work!');
   };
   const onChange = (event) => {
     const { target: { value } } = event;
@@ -12,7 +19,7 @@ const Home = () => {
   };
   return (
     <div>
-      <form>
+      <form onSubmit={onSubmit}>
         <input
           type="text"
           value={tweet}
@@ -26,4 +33,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
