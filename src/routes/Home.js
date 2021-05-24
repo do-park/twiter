@@ -5,13 +5,17 @@ const Home = () => {
   const [tweet, setTweet] = useState('');
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log('is it work?');
     await dbService.collection('tweets').add({
-      tweet,
+      tweet: tweet,
       createdAt: Date.now(),
+    }).then((docRef) => {
+      console.log("Success");
+      console.log(docRef);
+    }).catch((error) => {
+      console.log("something wrong");
+      console.log(error);
     });
     setTweet('');
-    console.log('is it work!');
   };
   const onChange = (event) => {
     const { target: { value } } = event;
